@@ -27,7 +27,7 @@ def line(katz_deli_line)
   if(katz_deli_line.length != 0)
     katz_deli_line.each_with_index {|customer, index| current.push("#{index + 1}. #{customer}")}
     puts("The line is currently: #{current * " "}")
-  elsif(katz_deli_line.length == 0)
+  else
     puts("The line is currently empty.")
   end
 end
