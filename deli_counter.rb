@@ -14,14 +14,6 @@ def now_serving(katz_deli_line)
   end
 end
 
-# def hail_mary(katz_deli_line)
-#   current = []
-#   katz_deli_line.each_with_index do |please, index|
-#     current.push("#{index + 1}. #{please}")
-#   end
-#   return current
-# end
-
 def line(katz_deli_line)
   current = []
   if(katz_deli_line.length != 0)
