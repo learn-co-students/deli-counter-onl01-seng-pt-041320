@@ -1,76 +1,54 @@
-describe 'Deli Counter' do
+katz_deli = ["Ada", "Grace", "Kent", "Matz"]
 
-  let(:katz_deli) { [] }
-  let(:other_deli) { ["Logan", "Avi", "Spencer"] }
-  let(:another_deli) { ["Amanda", "Annette", "Ruchi", "Jason", "Logan", "Spencer", "Avi", "Joe", "Rachel", "Lindsey"] }
 
-  describe "#line" do
-    context "there is nobody in line" do
-      it "should say the line is empty" do
-        # This line checks the current standard output (your terminal screen)
-        # to make sure the correct output has been puts'ed.
-        expect($stdout).to receive(:puts).with("The line is currently empty.")
-        line(katz_deli)
-      end
+def line(array) # this was the one I figured out
+  if array.length >= 1
+    nuarray = []
+    counter = 1
+    array.each do |name|
+      nuarray.push("#{counter}. #{name}")
+      counter += 1
     end
-
-    context "there are people in line" do
-      it "should display the current line" do
-        expect($stdout).to receive(:puts).with("The line is currently: 1. Logan 2. Avi 3. Spencer")
-        line(other_deli)
-      end
-
-      it 'works with different people in line' do
-	      expect($stdout).to receive(:puts).with("The line is currently: 1. Amanda 2. Annette 3. Ruchi 4. Jason 5. Logan 6. Spencer 7. Avi 8. Joe 9. Rachel 10. Lindsey")
-	line(another_deli)
-      end
-    end
+    puts "The line is currently: #{nuarray.join(" ")}"
+  else
+    puts "The line is currently empty."
   end
-
-  describe "#take_a_number" do
-    context "there is nobody in line" do
-      it "should add a person to the line" do
-        expect($stdout).to receive(:puts).with("Welcome, Ada. You are number 1 in line.")
-        take_a_number(katz_deli, "Ada")
-        expect(katz_deli).to eq(["Ada"])
-      end
-    end
-
-    context "there are already people in line" do
-      it "should add a person to the end of the line" do
-        # This weird looking %w syntax is just another way to instantiate an
-        # Array. %w(item1 item2) is equivalent to ["item1", "item2"]
-        expect($stdout).to receive(:puts).with("Welcome, Grace. You are number 4 in line.")
-        take_a_number(other_deli, "Grace")
-        expect(other_deli).to eq(%w(Logan Avi Spencer Grace))
-      end
-    end
-
-    context "adding multiple people in a row" do
-      it "should correctly build the line" do
-        take_a_number(katz_deli, "Ada")
-        take_a_number(katz_deli, "Grace")
-        take_a_number(katz_deli, "Kent")
-        expect(katz_deli).to eq(%w(Ada Grace Kent))
-      end
-    end
-  end
-
-  describe "#now_serving" do
-    context "there are no people in line" do
-      it "should say that the line is empty" do
-        expect($stdout).to receive(:puts).with("There is nobody waiting to be served!")
-        now_serving(katz_deli)
-      end
-    end
-
-    context "there are people in line" do
-      it "should serve the first person in line and remove them from the queue" do
-        expect($stdout).to receive(:puts).with("Currently serving Logan.")
-        now_serving(other_deli)
-        expect(other_deli).to eq(%w(Avi Spencer))
-      end
-    end
-  end
-
 end
+
+line(katz_deli)
+
+def line_simple(array) # this one follows the same mechanics as learn.co
+  current_line = "The simple line is currently:"
+  array.each.with_index(1) do |value, indexemus|
+  # "each.with_index" is the method...must use "index"
+    current_line << " #{indexemus}. #{value},"
+    # "indexemus" is used to illustrate this variable can be different from "index"
+  end
+  puts current_line
+end
+
+line_simple(katz_deli)
+#[:foo, :bar, :baz].each.with_index(1) do |value, index|
+#    puts "#{index}: #{value}"
+#end
+
+
+
+def take_a_number(line, new_person)
+  line.push(new_person) # could say: "line << new_person"
+  puts "Welcome, #{new_person}. You are number #{line.length} in line."
+end
+
+take_a_number(katz_deli, "Ada")
+
+def now_serving(line)
+  if line.length == 0 # could say: "if deli.empty?"
+    puts"There is nobody waiting to be served!"
+  else
+    puts "Currently serving #{line[0]}." # could say: "Currently serving #{line.first}."
+    line.shift # this works in the IDE but no on repl.it
+  end
+end
+
+puts now_serving(katz_deli)
+puts katz_deli
